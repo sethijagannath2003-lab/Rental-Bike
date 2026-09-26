@@ -1,0 +1,73 @@
+:root {
+    --bs-primary: #ffa318;
+    /* Yellow */
+    --bs-primary-rgb: 255, 163, 24;
+    /* RGB */
+}
+
+.btn-primary {
+    background-color: #ffa318 !important;
+    border-color: #ffa318 !important;
+    color: #000 !important;
+}
+
+.btn-primary:hover {
+    background-color: #e5940e !important;
+    border-color: #e5940e !important;
+    color: #fff !important;
+}
+
+.btn-outline-primary {
+    color: #ffa318 !important;
+    border-color: #ffa318 !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: #ffa318 !important;
+    color: #000 !important;
+}
+
+/* Custom yellow background (replace bg-primary-yellow) */
+
+.bg-primary-yellow {
+    background-color: #ffc778 !important;
+    /* Bootstrap warning shade yellow */
+    color: #212529 !important;
+    /* Dark text for contrast */
+}
+
+/* Custom yellow outline button (replace btn-outline-primary) */
+
+.btn-outline-yellow {
+    color: #ffc778;
+    border: 1px solid #ffc778;
+}
+
+.btn-outline-yellow:hover,
+.btn-outline-yellow:focus {
+    color: #212529;
+    background-color: #ffc778;
+    border-color: #ffc778;
+}
+
+/* Common button styles */
+
+.btn {
+    font-weight: 600 !important;
+    border-radius: 50px !important;
+    /* rounded pill look */
+    padding: 0.5rem 1.25rem !important;
+    transition: all 0.3s ease-in-out !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Hover effect for all buttons */
+
+.btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15) !important;
+}
+
+.border-primary {
+    border-color: #ffa318 !important;
+}

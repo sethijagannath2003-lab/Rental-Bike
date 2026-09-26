@@ -1,0 +1,2394 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent2Rider - Bike Rentals</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts - Inter with different weights -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Custom CSS -->
+    <style>
+        html, body {
+            width: 100%;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        :root {
+            --primary: #ffc778;
+            --primary-hover: #e05a00;
+            --secondary-color: #2C3E50;
+            --light-gray: #F8F9FA;
+            --dark-gray: #6C757D;
+            --text-color: #212529;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --ink: #010101;
+            --bs-primary: #ffa318;  /* apnar yellow shade */
+            --bs-primary-rgb: 255, 163, 24;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            transition: var(--transition);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            transition: var(--transition);
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--secondary-color);
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+            background-color: rgba(255, 101, 0, 0.1);
+        }
+
+        .badge-custom {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 10px;
+            padding: 3px 6px;
+            border-radius: 50%;
+        }
+
+        .offcanvas {
+            width: 320px;
+            border-left: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .offcanvas-header {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .offcanvas-title {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .list-group-item {
+            border: none;
+            padding: 12px 20px;
+            transition: var(--transition);
+        }
+
+        .list-group-item:hover {
+            background-color: rgba(255, 101, 0, 0.05);
+            color: var(--primary-color);
+        }
+
+        .btn-primary-custom {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .btn-primary-custom:hover {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-custom {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .btn-outline-custom:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .category-box {
+            transition: var(--transition);
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        .category-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-title {
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .category-box:hover .category-title {
+            color: var(--primary-color);
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            padding: 10px 20px;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            background-color: transparent;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .profile-icon {
+            transition: var(--transition);
+        }
+
+        .profile-icon:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar-brand img {
+                height: 35px;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .offcanvas {
+                width: 280px;
+            }
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <!-- Google Seacrh Console Meta Tag -->
+    <meta name="google-site-verification" content="xggPc-mibKu49jp8RCKgM5iOeOX0JU-eDYHcz0QG7_8" />
+</head>
+<style>
+    /* Updated Cart Sidebar Styles */
+    .cart-sidebar {
+        width: 380px;
+    }
+
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+        transition: all 0.3s ease;
+    }
+
+    .cart-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .cart-item img {
+        width: 70px;
+        height: 70px;
+        object-fit: contain;
+        border-radius: 8px;
+        border: 1px solid #eee;
+    }
+
+    .cart-item-details {
+        flex: 1;
+        padding: 0 1rem;
+    }
+
+    .cart-item-title {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        color: #2C3E50;
+    }
+
+    .cart-item-price {
+        color: #FF6500;
+        font-weight: 500;
+    }
+
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .quantity-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #dee2e6;
+        background: white;
+        transition: all 0.3s ease;
+    }
+
+    .quantity-btn:hover {
+        background: #FF6500;
+        color: white;
+        border-color: #FF6500;
+    }
+
+    .quantity-display {
+        min-width: 30px;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .remove-btn {
+        color: #dc3545;
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .remove-btn:hover {
+        background: #dc3545;
+        color: white;
+    }
+
+    .cart-summary {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+
+    .summary-total {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #2C3E50;
+        border-top: 2px solid #dee2e6;
+        padding-top: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    #emptyCartMessage {
+        text-align: center;
+        padding: 2rem;
+        color: #6c757d;
+    }
+
+    /* Toast notification */
+    .toast-container {
+        z-index: 9999;
+    }
+
+    /* ---------- Fancy Toasts ---------- */
+    .toast-container {
+        z-index: 9999;
+    }
+
+    .r2r-toast.toast {
+        border: 0;
+        color: #111;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+        border-radius: 16px;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, .9);
+        animation: r2rSlideIn .35s ease-out both;
+    }
+
+    .r2r-toast .toast-header {
+        background: transparent;
+        border: 0;
+        padding: .6rem .9rem .2rem .9rem;
+    }
+
+    .r2r-toast .toast-body {
+        padding: 0 .9rem .9rem .9rem;
+        font-weight: 500;
+    }
+
+    .r2r-badge {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #f2f2f2;
+    }
+
+    .r2r-toast.success .r2r-badge {
+        background: #e8fff0;
+    }
+
+    .r2r-toast.info .r2r-badge {
+        background: #eef6ff;
+    }
+
+    .r2r-toast.danger .r2r-badge {
+        background: #ffecec;
+    }
+
+    /* left accent bar */
+    .r2r-toast::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(180deg, #FF6500 0%, #ffb07a 100%);
+    }
+
+    .r2r-toast.success::before {
+        background: linear-gradient(180deg, #16a34a, #86efac);
+    }
+
+    .r2r-toast.info::before {
+        background: linear-gradient(180deg, #0ea5e9, #93c5fd);
+    }
+
+    .r2r-toast.danger::before {
+        background: linear-gradient(180deg, #dc2626, #fecaca);
+    }
+
+    @keyframes r2rSlideIn {
+        from {
+            transform: translateY(10px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* optional: stack spacing */
+    .toast-container .toast+.toast {
+        margin-top: .5rem;
+    }
+</style>
+
+<!-- Updated CSS for Profile Offcanvas Menu -->
+<style>
+    .offcanvas {
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.05);
+    }
+    .offcanvas {
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.05);
+    }
+    .offcanvas-backdrop{
+        background: rgba(0, 0, 0, 0.31);
+    }
+    .list-group-item-action:hover {
+        transform: translateX(5px);
+        background-color: rgba(255, 101, 0, 0.08) !important;
+    }
+    .icon-container {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .avatar-placeholder {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .offcanvas-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1040;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.31);
+    }
+</style>
+
+<!-- Bootstrap CSS (Bootstrap 5.3) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome (icons) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+
+<style>
+    /* Top bar */
+    .topbar { 
+        background: var(--ink); 
+        color: #fff; 
+        font-size: .925rem; 
+    }
+    .topbar a { 
+        color: #fff; 
+        text-decoration: none; 
+        opacity: .9; 
+    }
+    .topbar a:hover { 
+        opacity: 1; 
+    }
+
+    .nav-tabs .nav-link {
+        border: none;
+        color: #6c757d;
+        border-bottom: 3px solid transparent;
+    }
+    .nav-tabs .nav-link.active {
+        color: #FF6500;
+        background: transparent;
+        border-bottom: 3px solid #FF6500;
+    }
+    .list-group-item-action:hover {
+        transform: translateX(5px);
+        background-color: rgba(255, 101, 0, 0.08) !important;
+    }
+    .icon-container {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .avatar-placeholder {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .social-icon:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.1) !important;
+        border-color: rgba(255, 101, 0, 0.2) !important;
+    }
+    .bg-orange {
+        background-color: #FF6500 !important;
+    }
+    .bg-purple {
+        background-color: #6F42C1 !important;
+    }
+</style>
+
+<style>
+    /* Custom Dropdown Styling */
+    .dropdown-menu-custom {
+        min-width: 220px;
+        padding: 0.75rem 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        animation: dropdownFadeIn 0.3s ease;
+    }
+
+    @keyframes dropdownFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dropdown-item-custom {
+        padding: 0.75rem 1.25rem;
+        transition: all 0.3s ease;
+        border-radius: 0;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        color: #495057;
+    }
+
+    .dropdown-item-custom:hover {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        color: #212529;
+        transform: translateX(5px);
+        padding-left: 1.5rem;
+    }
+
+    .dropdown-item-custom i {
+        font-size: 14px;
+        width: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .dropdown-item-custom:hover i {
+        transform: scale(1.1);
+    }
+
+    .dropdown-divider {
+        border-color: rgba(0, 0, 0, 0.08);
+        opacity: 0.5;
+    }
+
+    /* Dropdown Toggle Enhancement */
+    .nav-link.dropdown-toggle {
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+    }
+
+    .nav-link.dropdown-toggle:hover {
+        background: rgba(0, 123, 255, 0.1);
+        color: var(--bs-primary) !important;
+    }
+
+    .nav-link.dropdown-toggle::after {
+        transition: transform 0.3s ease;
+    }
+
+    .nav-link.dropdown-toggle[aria-expanded="true"]::after {
+        transform: rotate(180deg);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 991px) {
+        .dropdown-menu-custom {
+            position: static !important;
+            transform: none !important;
+            box-shadow: none;
+            border: none;
+            background: transparent;
+            padding-left: 1rem;
+        }
+        
+        .dropdown-item-custom {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            margin: 0.25rem 0;
+        }
+        
+        .dropdown-item-custom:hover {
+            transform: none;
+            padding-left: 1rem;
+            background: rgba(0, 123, 255, 0.1);
+        }
+    }
+
+    .navbar-nav .nav-link.active {
+        background: rgba(13,110,253,0.1);
+        border-radius: 6px;
+        font-weight: 600;
+        color: #0d6efd !important;
+    }
+</style>
+
+<style>
+    /* Minimal Yellow Book Now Button - Normal Case */
+    .minimal-book-btn {
+        background: #ffa318; /* Golden Yellow */
+        color: #000000 !important; /* Force Black Text */
+        font-weight: 700;
+        font-size: 14px;
+        padding: 2px 5x;
+        border-radius: 25px;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        /* text-transform: uppercase;  <- এটা remove করা হয়েছে */
+        letter-spacing: 0.5px; /* Slight letter spacing for better readability */
+        box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+        transition: all 0.3s ease;
+        min-width: 120px;
+        text-decoration: none;
+        overflow: hidden;
+    }
+
+    /* Ensure icon stays black */
+    .minimal-book-btn .btn-icon {
+        color: #000000 !important; /* Force Black Icon */
+        transition: transform 0.3s ease;
+        font-size: 14px;
+    }
+
+    .minimal-book-btn .btn-icon i {
+        color: #000000 !important; /* Force Black Arrow */
+    }
+
+    .minimal-book-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+        transition: left 0.5s;
+        z-index: 1;
+    }
+
+    .minimal-book-btn:hover::before {
+        left: 100%;
+    }
+
+    .minimal-book-btn:hover {
+        background: #e69500; /* Darker Orange-Yellow on hover */
+        color: #000000 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    }
+
+    .minimal-book-btn:hover .btn-icon,
+    .minimal-book-btn:hover .btn-icon i {
+        color: #000000 !important; /* Black icon on hover */
+    }
+
+    .minimal-book-btn .btn-text {
+        font-weight: 700;
+        transition: all 0.3s ease;
+        color: #000000 !important; /* Force Black Text */
+    }
+
+    .minimal-book-btn:hover .btn-text {
+        color: #000000 !important; /* Black text on hover */
+    }
+
+    .minimal-book-btn .btn-line {
+        height: 2px;
+        background: #000000; /* Black line */
+        width: 30px;
+        transition: width 0.3s ease;
+        margin-left: auto;
+    }
+
+    .minimal-book-btn:hover .btn-line {
+        width: 0;
+    }
+
+    /* Active State */
+    .minimal-book-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+        color: #000000 !important;
+    }
+
+    .minimal-book-btn:active .btn-icon,
+    .minimal-book-btn:active .btn-icon i {
+        color: #000000 !important;
+    }
+
+    /* Focus State for Accessibility */
+    .minimal-book-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.5);
+        color: #000000 !important;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .minimal-book-btn {
+            padding: 8px 16px;
+            min-width: 100px;
+            height: 38px;
+            font-size: 13px;
+            letter-spacing: 0.3px;
+        }
+        
+        .minimal-book-btn .btn-text {
+            display: none;
+        }
+        
+        .minimal-book-btn {
+            border-radius: 20px;
+        }
+        
+        /* Ensure black icon on mobile */
+        .minimal-book-btn .btn-icon,
+        .minimal-book-btn .btn-icon i {
+            color: #000000 !important;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .minimal-book-btn {
+            padding: 6px 12px;
+            height: 34px;
+            min-width: 80px;
+        }
+        
+        .minimal-book-btn .btn-icon {
+            font-size: 12px;
+            color: #000000 !important;
+        }
+        
+        .minimal-book-btn .btn-icon i {
+            color: #000000 !important;
+        }
+    }
+
+    /* Animation on Load */
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .minimal-book-btn {
+        animation: slideInRight 0.6s ease-out;
+    }
+
+    /* Hide Topbar on Small Screens */
+    @media (max-width: 576px) {
+        .topbar {
+            display: none !important;
+        }
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<body>
+    <!-- Top Contact Bar -->
+    <div class="topbar py-2">
+        <div class="container d-flex flex-wrap gap-3 align-items-center justify-content-between">
+            <!-- Left Side - Contact Info -->
+            <div class="d-flex flex-wrap gap-3 align-items-center">
+                <a class="d-inline-flex align-items-center gap-2 text-white-50" href="tel:+917477309217">
+                    <i class="bi bi-telephone me-1"></i> 
+                    <span>+91 7477309217</span>
+                </a>
+                <span class="text-white-50 d-none d-md-inline">|</span>
+                <a class="d-inline-flex align-items-center gap-2 text-white-50" href="tel:+917477309217">
+                    <i class="bi bi-telephone me-1"></i> 
+                    <span>+91 8116303933</span>
+                </a>
+                <span class="text-white-50 d-none d-md-inline">|</span>
+                <a class="d-inline-flex align-items-center gap-2 text-white-50" href="mailto:info@renttorider.com">
+                    <i class="bi bi-envelope me-1"></i> 
+                    <span>info@renttorider.com</span>
+                </a>
+            </div>
+
+            <!-- Right Side - Minimal Yellow Book Now Button -->
+            <div class="d-flex gap-3">
+                <a href="search.php?product_type=bikes" class="minimal-book-btn d-flex align-items-center justify-content-center text-decoration-none position-relative overflow-hidden">
+                    <span class="btn-icon"><i class="bi bi-arrow-right"></i></span>
+                    <span class="btn-text">RENT BIKE</span>
+                    <div class="btn-line"></div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Mobile Logo -->
+            <a class="navbar-brand mx-auto d-lg-none" href="index.php">
+                <img src="images/Rent2Rider-logo-2.png" alt="Rent 2 Rider Logo" class="animate__animated animate__fadeIn" />
+            </a>
+
+            <!-- Mobile Icons -->
+            <div class="d-flex d-lg-none align-items-center gap-3">
+                <a href="#" class="position-relative">
+                    <i class="bi bi-cart fs-5 text-primary"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge-custom">5</span>
+                </a>
+                <a href="#" class="position-relative mx-2" data-bs-toggle="offcanvas" data-bs-target="#profileMenu">
+                    <i class="bi bi-person-circle fs-4 text-primary"></i>
+                </a>
+            </div>
+
+            <!-- Desktop Logo -->
+            <a class="navbar-brand d-none d-lg-block me-5" href="index.php">
+                <img src="images/Rent2Rider-logo-2.png" alt="Rent 2 Rider Logo" 
+                    class="animate__animated animate__fadeIn" 
+                    style="width: 160px; height: auto;" />
+            </a>
+
+            <!-- Desktop Navigation - RIGHT ALIGNED -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav d-flex flex-row gap-3 align-items-center">
+
+                    <!-- Bikes -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center <br />
+<b>Warning</b>:  Undefined variable $page in <b>/home/jewbnsdk/domains/renttorider.com/public_html/header.php</b> on line <b>944</b><br />
+" href="search.php?product_type=bikes">
+                            <i class="fas fa-motorcycle text-primary me-2"></i>
+                            <span> Bikes</span>
+                        </a>
+                    </li>
+
+                    <!-- Accessories -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center <br />
+<b>Warning</b>:  Undefined variable $page in <b>/home/jewbnsdk/domains/renttorider.com/public_html/header.php</b> on line <b>952</b><br />
+" href="search.php?product_type=accessories">
+                            <i class="fas fa-helmet-safety text-primary me-2"></i>
+                            <span> Accessories</span>
+                        </a>
+                    </li>
+
+                    <!-- Services Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center <br />
+<b>Warning</b>:  Undefined variable $page in <b>/home/jewbnsdk/domains/renttorider.com/public_html/header.php</b> on line <b>960</b><br />
+" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-tools text-primary me-1"></i>
+                             Services
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-custom shadow-lg border-0 rounded-3" aria-labelledby="servicesDropdown">
+                            <li>
+                                <a class="dropdown-item dropdown-item-custom" href="siliguri.php">
+                                    <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                    <span> Siliguri Rental Services</span>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider my-1"></li>
+                            <li>
+                                <a class="dropdown-item dropdown-item-custom" href="darjeeling.php">
+                                    <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                    <span> Darjeeling Rental Services</span>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider my-1"></li>
+                            <li>
+                                <a class="dropdown-item dropdown-item-custom" href="gangtok.php">
+                                    <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                    <span> Gangtok Rental Services</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Pages Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center <br />
+<b>Warning</b>:  Undefined variable $page in <b>/home/jewbnsdk/domains/renttorider.com/public_html/header.php</b> on line <b>990</b><br />
+" href="#" id="pagesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-file-alt text-primary me-1"></i>
+                             Pages
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-custom shadow-lg border-0 rounded-3" aria-labelledby="pagesDropdown">
+                            <li>
+                                <a class="dropdown-item dropdown-item-custom" href="faqs.php">
+                                    <i class="fas fa-question-circle text-primary me-2"></i>
+                                    <span> FAQ</span>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider my-1"></li>
+                            <li>
+                                <a class="dropdown-item dropdown-item-custom" href="disclaimer.php">
+                                    <i class="fas fa-exclamation-triangle text-primary me-2"></i>
+                                    <span> Disclaimer</span>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider my-1"></li>
+                            <li>
+                                <a class="dropdown-item dropdown-item-custom" href="rent-policy.php">
+                                    <i class="fas fa-file-contract text-primary me-2"></i>
+                                    <span> Rent Policy</span>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider my-1"></li>
+                            <li>
+                                <a class="dropdown-item dropdown-item-custom" href="refund-policy.php">
+                                    <i class="fas fa-undo-alt text-primary me-2"></i>
+                                    <span> Refund Policy</span>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider my-1"></li>
+                            <li>
+                                <a class="dropdown-item dropdown-item-custom" href="privacy-policy.php">
+                                    <i class="fas fa-shield-alt text-primary me-2"></i>
+                                    <span> Privacy Policy</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- About Us -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center <br />
+<b>Warning</b>:  Undefined variable $page in <b>/home/jewbnsdk/domains/renttorider.com/public_html/header.php</b> on line <b>1034</b><br />
+" href="about-us.php">
+                            <i class="fas fa-info-circle text-primary me-2"></i>
+                            <span> About Us</span>
+                        </a>
+                    </li>
+
+                    <!-- Contact Us -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center <br />
+<b>Warning</b>:  Undefined variable $page in <b>/home/jewbnsdk/domains/renttorider.com/public_html/header.php</b> on line <b>1042</b><br />
+" href="contact-us.php">
+                            <i class="fas fa-envelope text-primary me-2"></i>
+                            <span> Contact Us</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Side Icons -->
+                <div class="d-flex align-items-center gap-3 ms-3">
+                    <a class="position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" id="cartIcon" style="cursor: pointer;">
+                        <i class="bi bi-cart fs-5 text-primary"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge-custom" id="cartCount">0</span>
+                    </a>
+                    <a class="position-relative" data-bs-toggle="offcanvas" data-bs-target="#profileMenu" style="cursor: pointer;">
+                        <i class="bi bi-person-circle fs-4 text-primary"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Sidebar -->
+    <div class="offcanvas offcanvas-end cart-sidebar" tabindex="-1" id="cartSidebar" aria-labelledby="cartSidebarLabel">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title fw-bold" id="cartSidebarLabel">
+                <i class="bi bi-cart3 me-2"></i>Your Rental Cart
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0 d-flex flex-column">
+            <div class="cart-items flex-grow-1" id="cartItemsContainer" style="overflow-y: auto;">
+                <p class="text-muted text-center py-4" id="emptyCartMessage">
+                    <i class="bi bi-cart-x display-4 d-block mb-2"></i>
+                    Your cart is empty
+                </p>
+                <!-- Cart items will be dynamically inserted here -->
+            </div>
+            <!-- Replace the existing cart summary section with this -->
+            <div class="cart-summary-container border-top p-3 bg-light d-none" id="cartSummary">
+                <div class="summary-item summary-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">₹0.00</span>
+                </div>
+                <button class="btn btn-outline-danger w-100 mt-3 fw-bold py-2" id="clearCartBtn">Clear All</button>
+                <button class="btn btn-warning w-100 mt-3 fw-bold py-2" id="checkoutBtn">
+                    <i class="bi bi-credit-card me-2"></i>Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Profile Offcanvas Menu -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="profileMenu" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+        <div class="offcanvas-header border-bottom" style="background: rgba(255, 101, 0, 0.1);">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-person-badge-fill me-2 text-primary"></i>
+                <h5 class="offcanvas-title mb-0">Welcome Rider</h5>
+            </div>
+            <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column p-0">
+                            <!-- Guest State -->
+                <div class="text-center py-5 px-4">
+                    <div class="avatar-placeholder rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" 
+                        style="width: 80px; height: 80px; background: linear-gradient(45deg, #e9ecef, #dee2e6);">
+                        <i class="bi bi-person-circle fs-1 text-muted"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Join Our Community</h5>
+                    <p class="text-muted mb-4">Sign in to access exclusive features and manage your rentals</p>
+                    <a href="login-signup.php" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login / Register
+                    </a>
+                </div>
+                
+                <!-- Support Links for Guests -->
+                <div class="px-3 py-4 mt-auto">
+                    <h6 class="text-uppercase small fw-bold text-muted mb-3 px-2">Support</h6>
+                    <div class="list-group list-group-flush rounded-3">
+                        <a href="terms-and-conditions.php" class="list-group-item list-group-item-action border-0 rounded-3 mb-2">
+                            <i class="bi bi-file-earmark-text me-2 text-secondary"></i>
+                            <span>Terms & Conditions</span>
+                        </a>
+                        <a href="privacy-policy.php" class="list-group-item list-group-item-action border-0 rounded-3 mb-2">
+                            <i class="bi bi-shield-check me-2 text-success"></i>
+                            <span>Privacy Policy</span>
+                        </a>
+                        <a href="contact-us.php" class="list-group-item list-group-item-action border-0 rounded-3">
+                            <i class="bi bi-question-circle me-2 text-warning"></i>
+                            <span>Help Center</span>
+                        </a>
+                    </div>
+                </div>
+                        
+                    </div>
+    </div>
+
+    <!-- Mobile Offcanvas Menu -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+    <div class="offcanvas-header border-bottom" style="background: rgba(255, 101, 0, 0.1);">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-list me-2 text-primary"></i>
+            <h5 class="offcanvas-title mb-0">Menu</h5>
+        </div>
+        <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <div class="offcanvas-body p-0">
+        <ul class="nav nav-tabs nav-justified" id="menuTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active fw-semibold py-3" id="menu-tab" data-bs-toggle="tab" data-bs-target="#menuTab" type="button" role="tab">
+                    <i class="bi bi-grid me-1"></i> MENU
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link fw-semibold py-3" id="category-tab" data-bs-toggle="tab" data-bs-target="#categoryTab" type="button" role="tab">
+                    <i class="bi bi-tag me-1"></i> CATEGORIES
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content pt-3" id="menuTabsContent">
+            <div class="tab-pane fade show active" id="menuTab" role="tabpanel">
+                                    <div class="text-center py-4 px-3">
+                        <div class="avatar-placeholder rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" 
+                             style="width: 70px; height: 70px; background: linear-gradient(45deg, #e9ecef, #dee2e6);">
+                            <i class="bi bi-person-circle fs-2 text-muted"></i>
+                        </div>
+                        <p class="mt-2 text-muted">Please log in to access your account</p>
+                        <a href="login-signup.php" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Login / Register
+                        </a>
+                    </div>
+                
+                
+                <div class="mx-3 mb-4">
+                    <h6 class="text-uppercase small fw-bold text-muted mb-3 px-2">Company</h6>
+                    <div class="list-group list-group-flush rounded-3">
+                        <a href="#" class="list-group-item list-group-item-action border-0 rounded-3 mb-2 d-flex align-items-center p-3" 
+                           style="background-color: rgba(108, 117, 125, 0.05); transition: all 0.3s ease;">
+                            <div class="icon-container bg-secondary bg-opacity-10 rounded-circle p-2 me-3">
+                                <i class="bi bi-info-circle text-secondary"></i>
+                            </div>
+                            <span class="fw-semibold">About Us</span>
+                            <i class="bi bi-chevron-right text-muted ms-auto"></i>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action border-0 rounded-3 mb-2 d-flex align-items-center p-3" 
+                           style="background-color: rgba(255, 193, 7, 0.05); transition: all 0.3s ease;">
+                            <div class="icon-container bg-warning bg-opacity-10 rounded-circle p-2 me-3">
+                                <i class="bi bi-question-circle text-warning"></i>
+                            </div>
+                            <span class="fw-semibold">FAQ</span>
+                            <i class="bi bi-chevron-right text-muted ms-auto"></i>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action border-0 rounded-3 mb-2 d-flex align-items-center p-3" 
+                           style="background-color: rgba(13, 202, 240, 0.05); transition: all 0.3s ease;">
+                            <div class="icon-container bg-info bg-opacity-10 rounded-circle p-2 me-3">
+                                <i class="bi bi-exclamation-triangle text-info"></i>
+                            </div>
+                            <span class="fw-semibold">Disclaimer</span>
+                            <i class="bi bi-chevron-right text-muted ms-auto"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mx-3 mb-4">
+                    <h6 class="text-uppercase small fw-bold text-muted mb-3 px-2">Policies</h6>
+                    <div class="list-group list-group-flush rounded-3">
+                        <a href="#" class="list-group-item list-group-item-action border-0 rounded-3 mb-2 d-flex align-items-center p-3" 
+                           style="background-color: rgba(25, 135, 84, 0.05); transition: all 0.3s ease;">
+                            <div class="icon-container bg-success bg-opacity-10 rounded-circle p-2 me-3">
+                                <i class="bi bi-file-earmark-text text-success"></i>
+                            </div>
+                            <span class="fw-semibold">Rent Policy</span>
+                            <i class="bi bi-chevron-right text-muted ms-auto"></i>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action border-0 rounded-3 mb-2 d-flex align-items-center p-3" 
+                            style="background-color: rgba(220, 53, 69, 0.05); transition: all 0.3s ease;">
+                                <div class="icon-container bg-danger bg-opacity-10 rounded-circle p-2 me-3">
+                                    <i class="bi bi-arrow-left-right text-danger"></i>
+                                </div>
+                                <span class="fw-semibold">Refund Policy</span>
+                                <i class="bi bi-chevron-right text-muted ms-auto"></i>
+                            </a>
+                            <a href="privacy-policy.php" class="list-group-item list-group-item-action border-0 rounded-3 mb-2 d-flex align-items-center p-3" 
+                            style="background-color: rgba(13, 110, 253, 0.05); transition: all 0.3s ease;">
+                                <div class="icon-container bg-primary-yellow bg-opacity-10 rounded-circle p-2 me-3">
+                                    <i class="bi bi-shield-check text-primary"></i>
+                                </div>
+                                <span class="fw-semibold">Privacy Policy</span>
+                                <i class="bi bi-chevron-right text-muted ms-auto"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="text-center my-4 px-3">
+                        <h6 class="text-uppercase small fw-bold text-muted mb-3">Follow Us</h6>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="https://www.facebook.com/Rent2Rider" class="social-icon d-flex align-items-center justify-content-center rounded-circle" 
+                            style="width: 40px; height: 40px; background-color: rgba(59, 89, 152, 0.1);">
+                                <i class="bi bi-facebook text-primary"></i>
+                            </a>
+                            <a href="https://www.instagram.com/rent2rider/" class="social-icon d-flex align-items-center justify-content-center rounded-circle" 
+                            style="width: 40px; height: 40px; background-color: rgba(225, 48, 108, 0.1);">
+                                <i class="bi bi-instagram text-danger"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/company/Rent2Rider" class="social-icon d-flex align-items-center justify-content-center rounded-circle" 
+                            style="width: 40px; height: 40px; background-color: rgba(29, 161, 242, 0.1);">
+                                <i class="bi bi-linkedin text-info"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                                    </div>
+
+                <div class="tab-pane fade" id="categoryTab" role="tabpanel">
+                    <div class="px-3">
+                        <h6 class="text-uppercase small fw-bold text-muted mb-3">Browse Categories</h6>
+                        <div class="row g-3">
+                                                            <div class="col-6">
+                                    <a href="search.php?category=20" class="text-decoration-none">
+                                        <div class="category-card p-3 rounded-3 text-center h-100 shadow-sm" 
+                                            style="background: white; border: 1px solid rgba(0,0,0,0.05); transition: all 0.3s ease;">
+                                                                                        <img src="images/bike.png" alt="Royal Enfield" 
+                                                class="img-fluid mb-2" style="height: 70px; object-fit: contain;">
+                                            <div class="category-title fw-semibold text-dark small">Royal Enfield</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                                                <div class="col-6">
+                                    <a href="search.php?category=23" class="text-decoration-none">
+                                        <div class="category-card p-3 rounded-3 text-center h-100 shadow-sm" 
+                                            style="background: white; border: 1px solid rgba(0,0,0,0.05); transition: all 0.3s ease;">
+                                                                                        <img src="images/bike.png" alt="Hero" 
+                                                class="img-fluid mb-2" style="height: 70px; object-fit: contain;">
+                                            <div class="category-title fw-semibold text-dark small">Hero</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                                                <div class="col-6">
+                                    <a href="search.php?category=42" class="text-decoration-none">
+                                        <div class="category-card p-3 rounded-3 text-center h-100 shadow-sm" 
+                                            style="background: white; border: 1px solid rgba(0,0,0,0.05); transition: all 0.3s ease;">
+                                                                                        <img src="images/bike.png" alt="Yamaha" 
+                                                class="img-fluid mb-2" style="height: 70px; object-fit: contain;">
+                                            <div class="category-title fw-semibold text-dark small">Yamaha</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                                                <div class="col-6">
+                                    <a href="search.php?category=43" class="text-decoration-none">
+                                        <div class="category-card p-3 rounded-3 text-center h-100 shadow-sm" 
+                                            style="background: white; border: 1px solid rgba(0,0,0,0.05); transition: all 0.3s ease;">
+                                                                                        <img src="images/bike.png" alt="Bajaj" 
+                                                class="img-fluid mb-2" style="height: 70px; object-fit: contain;">
+                                            <div class="category-title fw-semibold text-dark small">Bajaj</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                                        </div>
+
+                        <!-- View All Categories Link -->
+                        <div class="text-center mt-4">
+                            <a href="search.php" class="btn btn-primary rounded-pill px-4">
+                                <i class="bi bi-grid me-1"></i> View All Categories
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Main Content -->
+    <!-- <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="position-relative d-inline-block mb-3">
+                            <img src="https://via.placeholder.com/150" class="rounded-circle" width="120" height="120" alt="Profile">
+                            <button class="btn btn-sm btn-primary-custom position-absolute bottom-0 end-0 rounded-circle" style="width: 36px; height: 36px;">
+                                <i class="bi bi-camera"></i>
+                            </button>
+                        </div>
+                        <h4 class="mb-1">John Doe</h4>
+                        <p class="text-muted mb-3">Premium Member</p>
+                        <div class="d-flex justify-content-center gap-2 mb-4">
+                            <span class="badge bg-primary-yellow rounded-pill">Verified</span>
+                            <span class="badge bg-success rounded-pill">Active</span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary-custom">Edit Profile</button>
+                            <button class="btn btn-outline-custom">Upgrade Plan</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-header bg-white border-0">
+                        <h6 class="mb-0 fw-semibold">Account Details</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between px-0">
+                                <span>Member Since</span>
+                                <span class="fw-semibold">Jan 2023</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between px-0">
+                                <span>Total Rides</span>
+                                <span class="fw-semibold">24</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between px-0">
+                                <span>Current Rental</span>
+                                <span class="fw-semibold">Yamaha FZX</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between px-0">
+                                <span>Membership</span>
+                                <span class="badge bg-warning text-dark">Gold</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0 fw-semibold">Personal Information</h6>
+                        <button class="btn btn-sm btn-outline-custom">Edit</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-muted small">Full Name</label>
+                                <p class="fw-semibold">John Doe</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-muted small">Email</label>
+                                <p class="fw-semibold">john.doe@example.com</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-muted small">Phone</label>
+                                <p class="fw-semibold">+1 (123) 456-7890</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-muted small">Date of Birth</label>
+                                <p class="fw-semibold">January 15, 1990</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="form-label text-muted small">Address</label>
+                                <p class="fw-semibold">123 Main Street, Apt 4B, New York, NY 10001</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-muted small">Driver License</label>
+                                <p class="fw-semibold">DL-123456789</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-muted small">License Expiry</label>
+                                <p class="fw-semibold">January 15, 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0 fw-semibold">Recent Rentals</h6>
+                        <a href="#" class="btn btn-sm btn-outline-custom">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Vehicle</th>
+                                        <th>Rental Date</th>
+                                        <th>Return Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/RIGHT-Yamaha FZX-01.png" class="rounded me-3" width="40" height="40" alt="Yamaha FZX">
+                                                <div>
+                                                    <h6 class="mb-0">Yamaha FZX</h6>
+                                                    <small class="text-muted">Bike</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Jun 15, 2023</td>
+                                        <td>Jun 20, 2023</td>
+                                        <td><span class="badge bg-success">Completed</span></td>
+                                        <td><a href="#" class="btn btn-sm btn-outline-custom">Details</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/scooty1.png" class="rounded me-3" width="40" height="40" alt="Scooty">
+                                                <div>
+                                                    <h6 class="mb-0">Honda Activa</h6>
+                                                    <small class="text-muted">Scooty</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>May 28, 2023</td>
+                                        <td>Jun 2, 2023</td>
+                                        <td><span class="badge bg-success">Completed</span></td>
+                                        <td><a href="#" class="btn btn-sm btn-outline-custom">Details</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/RIGHT-Yamaha FZX-01.png" class="rounded me-3" width="40" height="40" alt="Yamaha FZX">
+                                                <div>
+                                                    <h6 class="mb-0">Yamaha FZX</h6>
+                                                    <small class="text-muted">Bike</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Apr 10, 2023</td>
+                                        <td>Apr 15, 2023</td>
+                                        <td><span class="badge bg-success">Completed</span></td>
+                                        <td><a href="#" class="btn btn-sm btn-outline-custom">Details</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- WOW.js for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script>
+        // In your existing JavaScript, update the checkout button functionality
+        document.getElementById('checkoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Check if user is logged in
+                            // Redirect to login with return URL
+                window.location.href = 'login-signup.php?redirect=checkout';
+                    });
+    </script>
+    <script>
+        // Initialize WOW.js
+        new WOW().init();
+
+        // Add animation to profile image on hover
+        $(document).ready(function() {
+            $('.profile-icon').hover(
+                function() {
+                    $(this).addClass('animate__animated animate__pulse');
+                },
+                function() {
+                    $(this).removeClass('animate__animated animate__pulse');
+                }
+            );
+
+            // Smooth scroll for anchor links
+            $('a[href^="#"]').on('click', function(event) {
+                var target = $(this.getAttribute('href'));
+                if (target.length) {
+                    event.preventDefault();
+                    $('html, body').stop().animate({
+                        scrollTop: target.offset().top - 70
+                    }, 1000);
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize cart if not exists
+            if (!localStorage.getItem('rent2riderCart')) {
+                localStorage.setItem('rent2riderCart', JSON.stringify({
+                    items: [],
+                    subtotal: 0,
+                    total: 0
+                }));
+            }
+
+            updateCartDisplay();
+            updateAddToCartButtons();
+
+
+
+            // Clear All button
+            const clearCartBtn = document.getElementById('clearCartBtn');
+            if (clearCartBtn) {
+                clearCartBtn.addEventListener('click', clearCart);
+            }
+
+            // SINGLE delegated click handler for all add-to-cart buttons
+            document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.add-to-cart');
+    if (!btn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const id = String(btn.dataset.id);
+    const name = btn.dataset.name;
+    const price = parseFloat(btn.dataset.price || '0');
+    const image = btn.dataset.image || '';
+    const type = id.startsWith('acc_') ? 'accessory' : 'bike';
+    const maxQuantity = parseInt(btn.dataset.maxQuantity || '0'); // Get max quantity
+
+    const cart = JSON.parse(localStorage.getItem('rent2riderCart'));
+    const isInCart = cart.items.some(item => String(item.id) === id);
+
+    if (isInCart) {
+        const cartSidebar = new bootstrap.Offcanvas(document.getElementById('cartSidebar'));
+        cartSidebar.show();
+        return;
+    }
+
+    addToCart(id, name, price, image, type, maxQuantity);
+    const cartSidebar = new bootstrap.Offcanvas(document.getElementById('cartSidebar'));
+    cartSidebar.show();
+});
+
+
+
+        });
+
+        // --- Cart core ---
+        function getCart() {
+            return JSON.parse(localStorage.getItem('rent2riderCart')) || {
+                items: [],
+                subtotal: 0,
+                total: 0
+            };
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('rent2riderCart', JSON.stringify(cart));
+        }
+
+        function addToCart(id, name, price, image, type = 'bike', maxQuantity = 0) {
+    const cart = getCart();
+    const existingItem = cart.items.find(it => String(it.id) === String(id));
+    
+    if (existingItem) {
+        // Check if we can add more of this item
+        if (maxQuantity > 0 && existingItem.quantity >= maxQuantity) {
+            showToast(`Cannot add more. Maximum ${maxQuantity} available.`, {type: 'danger'});
+            return;
+        }
+        existingItem.quantity += 1;
+    } else {
+        cart.items.push({
+            id,
+            name,
+            price,
+            image,
+            quantity: 1,
+            type: type,
+            maxQuantity: maxQuantity // Store max quantity for validation
+        });
+    }
+    calculateCartTotals(cart);
+    saveCart(cart);
+    updateCartDisplay();
+    updateAddToCartButtons();
+    showToast('Item added to cart!');
+}
+
+
+
+        function removeFromCart(id) {
+            const cart = getCart();
+            const idx = cart.items.findIndex(it => String(it.id) === String(id));
+            if (idx !== -1) {
+                cart.items.splice(idx, 1);
+                calculateCartTotals(cart);
+                saveCart(cart);
+                updateCartDisplay();
+                updateAddToCartButtons();
+                showToast('Item removed from cart!');
+            }
+        }
+
+function updateQuantity(id, change) {
+    const cart = getCart();
+    const idx = cart.items.findIndex(it => String(it.id) === String(id));
+    
+    if (idx !== -1) {
+        const item = cart.items[idx];
+        const newQuantity = item.quantity + change;
+        
+        // Check if new quantity exceeds max allowed
+        if (item.maxQuantity > 0 && newQuantity > item.maxQuantity) {
+            showToast(`Cannot exceed maximum quantity of ${item.maxQuantity}`, {type: 'danger'});
+            return;
+        }
+        
+        if (newQuantity <= 0) {
+            cart.items.splice(idx, 1);
+        } else {
+            item.quantity = newQuantity;
+        }
+        
+        calculateCartTotals(cart);
+        saveCart(cart);
+        updateCartDisplay();
+        updateAddToCartButtons();
+    }
+}
+
+
+        function calculateCartTotals(cart) {
+            cart.subtotal = cart.items.reduce((t, it) => t + (Number(it.price) * Number(it.quantity)), 0);
+            cart.total = cart.subtotal; // No tax calculation
+        }
+
+        function clearCart() {
+            const cart = {
+                items: [],
+                subtotal: 0,
+                total: 0
+            };
+            saveCart(cart);
+            updateCartDisplay();
+            updateAddToCartButtons();
+            showToast('Cart cleared!');
+        }
+
+        function updateCartDisplay() {
+    const cart = getCart();
+    const cartItemsContainer = document.getElementById('cartItemsContainer');
+    const cartSummary = document.getElementById('cartSummary');
+    const cartCount = document.getElementById('cartCount');
+    if (!cartItemsContainer || !cartCount) return;
+
+    const totalItems = cart.items.reduce((t, i) => t + i.quantity, 0);
+    cartCount.textContent = totalItems;
+
+    cartItemsContainer.innerHTML = '';
+    if (!cart.items.length) {
+        cartItemsContainer.innerHTML = `
+            <p class="text-muted text-center py-4" id="emptyCartMessage">
+                <i class="bi bi-cart-x display-4 d-block mb-2"></i>
+                Your cart is empty
+            </p>`;
+        if (cartSummary) cartSummary.classList.add('d-none');
+        return;
+    }
+
+    if (cartSummary) cartSummary.classList.remove('d-none');
+
+    cart.items.forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'cart-item';
+
+        const typeBadge = item.type === 'accessory' ?
+            '<span class="badge bg-info ms-2">Accessory</span>' :
+            '<span class="badge bg-primary-yellow ms-2">Vehicle</span>';
+
+        // Add quantity limit indicator if applicable
+        const quantityLimit = item.maxQuantity > 0 ? 
+            `<small class="text-muted d-block">Max: ${item.maxQuantity}</small>` : '';
+
+        el.innerHTML = `
+            <div class="d-flex align-items-center">
+                <img src="${item.image}" alt="${escapeHtml(item.name)}" class="img-fluid" style="width:70px;height:70px;object-fit:contain;border-radius:8px;border:1px solid #eee;">
+                <div class="cart-item-details">
+                    <div class="cart-item-title">${escapeHtml(item.name)} ${typeBadge}</div>
+                    <div class="cart-item-price">₹${Number(item.price).toFixed(2)}/day</div>
+                    ${quantityLimit}
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="updateQuantity('${item.id}', -1)">-</button>
+                    <span class="quantity-display">${item.quantity}</span>
+                    <button class="quantity-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+                </div>
+                <button class="remove-btn" onclick="removeFromCart('${item.id}')"><i class="bi bi-trash"></i></button>
+            </div>`;
+        cartItemsContainer.appendChild(el);
+    });
+
+    const fmt = v => `₹${Number(v).toFixed(2)}`;
+    const totalEl = document.getElementById('cartTotal');
+    if (totalEl) totalEl.textContent = fmt(cart.total);
+}
+
+
+        function updateAddToCartButtons() {
+            const cart = getCart();
+            document.querySelectorAll('.add-to-cart').forEach(btn => {
+                btn.setAttribute('type', 'button');
+                const id = String(btn.dataset.id);
+                const isInCart = cart.items.some(it => String(it.id) === id);
+
+                if (isInCart) {
+                    btn.innerHTML = '<i class="bi bi-cart-check me-1"></i>Go to Cart';
+                    btn.classList.remove('btn-outline-primary');
+                    btn.classList.add('btn-success');
+                    btn.removeAttribute('data-bs-toggle');
+                    btn.removeAttribute('data-bs-target');
+                } else {
+                    btn.textContent = 'Add to Cart';
+                    btn.classList.remove('btn-success');
+                    btn.classList.add('btn-outline-primary');
+                    btn.removeAttribute('data-bs-toggle');
+                    btn.removeAttribute('data-bs-target');
+                }
+            });
+        }
+
+        function showToast(message, opts = {}) {
+            const {
+                title = 'Rent2Rider',
+                    type = 'success',
+                    autohide = true,
+                    delay = 2500,
+                    icon = null
+            } = opts;
+
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+                document.body.appendChild(container);
+            }
+
+            const id = 'r2r_toast_' + Date.now();
+            const chosenIcon = icon || (type === 'danger' ? 'bi-x-circle' : type === 'info' ? 'bi-info-circle' : 'bi-bag-check');
+
+            const html = `
+        <div id="${id}" class="toast r2r-toast ${type}" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <span class="r2r-badge me-2"><i class="bi ${chosenIcon}"></i></span>
+                <strong class="me-auto">${title}</strong>
+                <small class="text-muted">just now</small>
+                <button type="button" class="btn-close ms-2" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">${message}</div>
+        </div>`;
+
+            container.insertAdjacentHTML('beforeend', html);
+
+            const el = document.getElementById(id);
+            const toast = new bootstrap.Toast(el, {
+                autohide,
+                delay
+            });
+            toast.show();
+
+            el.addEventListener('hidden.bs.toast', () => el.remove());
+        }
+
+        function escapeHtml(s) {
+            return String(s).replace(/[&<>"']/g, m => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            } [m]));
+        }
+    </script>
+
+</body>
+
+</html>
+<!-- Simple 404 Page -->
+<section class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-12 text-center">
+            <!-- 404 Number -->
+            <div class="mb-4">
+                <h1 class="display-1 fw-bold text-primary mb-3">404</h1>
+                <h2 class="h3 fw-normal text-dark mb-3">Oops! Page Not Found</h2>
+                <p class="text-muted mb-4">
+                    The page you're looking for doesn't exist or has been moved.
+                </p>
+            </div>
+
+        
+            <!-- SEO Meta -->
+            <meta name="robots" content="noindex, follow">
+            <title>404 - Page Not Found | Rent2Rider</title>
+        </div>
+    </div>
+</section>
+
+<!-- SEO Structured Data -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "404 - Page Not Found",
+    "description": "Rent2Rider 404 error page",
+    "url": "/images/bg-bike-road.jpg"
+}
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent 2 Rider - Professional Footer</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-yellow: #ffc778;
+            --primary-black: #010102;
+            --dark-yellow: #e5940e;
+            --light-yellow: #ffd28a;
+            --light-gray: #f8f9fa;
+            --dark-gray: #6c757d;
+            --bs-primary: #ffa318;  /* apnar yellow shade */
+            --bs-primary-rgb: 255, 163, 24;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .main-content {
+            flex: 1;
+        }
+        
+        /* Footer Styles */
+        .footer-section {
+            background: var(--primary-yellow);
+            color: var(--primary-black);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        
+        .footer-title {
+            color: var(--primary-black);
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary-black);
+            border-radius: 2px;
+        }
+        
+        .footer-link {
+            display: inline-block;
+            color: var(--primary-black);
+            text-decoration: none;
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 0;
+        }
+        
+        .footer-link:hover {
+            color: var(--primary-black);
+            padding-left: 8px;
+            text-decoration: none;
+        }
+        
+        .footer-link::before {
+            content: '•';
+            position: absolute;
+            left: -12px;
+            top: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover::before {
+            opacity: 1;
+            left: 0;
+        }
+        
+        .footer-logo {
+            transition: all 0.3s ease;
+        }
+        
+        .footer-logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--primary-black);
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary-black);
+            color: var(--primary-yellow);
+            transform: translateY(-3px);
+        }
+        
+        .newsletter-form {
+            position: relative;
+            margin-top: 1rem;
+        }
+        
+        .newsletter-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 30px;
+            background-color: rgba(255, 255, 255, 0.85);
+            color: var(--primary-black);
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(1, 1, 2, 0.1);
+        }
+        
+        .newsletter-btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            border: none;
+            background-color: var(--primary-black);
+            color: white;
+            border-radius: 30px;
+            padding: 7px 15px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-btn:hover {
+            background-color: #333;
+        }
+        
+        .payment-methods {
+            display: flex;
+            gap: 8px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .payment-icon {
+            width: 40px;
+            height: 25px;
+            background-color: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--dark-gray);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-black);
+            color: var(--primary-yellow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--primary-yellow);
+            color: var(--primary-black);
+            transform: translateY(-5px);
+        }
+        
+        .divider {
+            border-top: 1px solid rgba(1, 1, 2, 0.1);
+            margin: 1.5rem 0;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .footer-section .text-md-start {
+                text-align: center !important;
+            }
+            
+            .footer-title::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .newsletter-form {
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
+    
+    <!-- Footer -->
+    <footer class="footer-section pt-5 pb-3">
+        <div class="container">
+            <div class="row gy-5">
+                <!-- Logo & Description -->
+                <div class="col-12 col-lg-4">
+                    <img src="images/r_logo.png" height="60" width="190" alt="Rent 2 Rider Logo" class="mb-3 footer-logo">
+                    <p class="text-dark mb-4">
+                        We are one of the most well-known bike rental companies in Siliguri, offering high-quality
+                        two-wheelers for rent with exceptional customer service.
+                    </p>
+                    
+                    <div class="social-icons mb-4">
+                        <a href="https://www.facebook.com/Rent2Rider" target="_blank" class="social-icon footer-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/rent2rider/" target="_blank" class="social-icon footer-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://twitter.com/Rent2Rider" target="_blank" class="social-icon footer-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/Rent2Rider" target="_blank" class="social-icon footer-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://in.pinterest.com/Rent2Rider/" target="_blank" class="social-icon footer-link">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+
+                    
+                    <h6 class="text-dark fw-bold mb-2">We Accept:</h6>
+                    <div class="payment-methods">
+                        <div class="payment-icon">UPI</div>
+                        <div class="payment-icon">CC</div>
+                        <div class="payment-icon">DC</div>
+                        <div class="payment-icon">NB</div>
+                        <div class="payment-icon">Cash</div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-6 col-md-4 col-lg-2">
+                    <h6 class="footer-title">Company</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://renttorider.com/" class="footer-link">Home</a></li>
+                        <li><a href="https://renttorider.com/about-us.php" class="footer-link">About Us</a></li>
+                        <li><a href="https://renttorider.com/contact-us.php" class="footer-link">Contact Us</a></li>
+                        <li><a href="https://renttorider.com/faqs.php" class="footer-link">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div class="col-6 col-md-4 col-lg-2">
+                    <h6 class="footer-title">Services</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://renttorider.com/search.php?product_type=bikes" class="footer-link">Bike Rentals</a></li>
+                        <li><a href="https://renttorider.com/search.php?product_type=accessories" class="footer-link">Accessories</a></li>
+                        <li><a href="https://renttorider.com/siliguri.php" class="footer-link">Siliguri Tours</a></li>
+                        <li><a href="https://renttorider.com/darjeeling.php" class="footer-link">Darjeeling Tours</a></li>
+                        <li><a href="https://renttorider.com/gangtok.php" class="footer-link">Gangtok Tours</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal & Newsletter -->
+                <div class="col-12 col-md-4 col-lg-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <h6 class="footer-title">Legal Pages</h6>
+                            <ul class="list-unstyled">
+                                <li><a href="https://renttorider.com/disclaimer.php" class="footer-link">Disclaimer</a></li>
+                                <li><a href="https://renttorider.com/rent-policy.php" class="footer-link">Rent Policy</a></li>
+                                <li><a href="https://renttorider.com/refund-policy.php" class="footer-link">Refund Policy</a></li>
+                                <li><a href="https://renttorider.com/privacy-policy.php" class="footer-link">Privacy Policy</a></li>
+                                <li><a href="https://renttorider.com/terms-and-conditions.php" class="footer-link">Terms & Conditions</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <h6 class="footer-title">Social Media</h6>
+                            <ul class="list-unstyled">
+                                <li><a href="https://www.facebook.com/Rent2Rider" class="footer-link" target="blank">Facebook</a></li>
+                                <li><a href="https://www.youtube.com/@Rent2Rider" class="footer-link" target="blank">YouTube</a></li>
+                                <li><a href="https://www.instagram.com/rent2rider/" class="footer-link" target="blank">Instagram</a></li>
+                                <li><a href="https://www.linkedin.com/company/Rent2Rider" class="footer-link" target="blank">Linkdin</a></li>
+                                <li><a href="https://in.pinterest.com/Rent2Rider/" class="footer-link" target="blank">Pinterest</a></li>
+                                <li><a href="https://twitter.com/Rent2Rider" class="footer-link" target="blank">Twitter</a></li>
+                            </ul>
+                        </div>
+                        <!-- <div class="col-6">
+                            <h6 class="footer-title">News Letter</h6>
+                            <p class="text-dark mb-3">Subscribe to our newsletter for updates and offers!</p>
+                            <form action="subscribe.php" method="post" class="d-flex flex-column">
+                                <input type="email" name="email" placeholder="Enter your email" class="form-control mb-2" required>
+                                <button type="submit" class="btn btn-primary">Subscribe</button>
+                            </form>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="text-dark mb-0">&copy; 2025 Rent 2 Rider. All rights reserved || Developed By <a href="https://toobarye.com/" class="footer-link" target="blank">TooBarye</a></p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="text-dark mb-0">
+                        <span class="d-inline-block me-3"><i class="fas fa-phone me-1"></i> <a href="tel:+917477309217" class="footer-link">+91 7477309217</a></span>
+                        <span class="d-inline-block"><i class="fas fa-envelope me-1"></i> <a href="mailto:info@renttorider.com" class="footer-link">info@renttorider.com</a></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/917477309217?text=Hi%20Rent2Rider!%20I%20want%20to%20rent%20a%20bike." 
+    class="whatsapp-float" 
+    target="_blank"
+    rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">Chat on WhatsApp</span>
+    </a>
+
+    <style>
+        /* ========================================================
+        FLOATING WHATSAPP BUTTON STYLES
+        ==================================================== */
+
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 100px;
+            right: 25px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            animation: whatsapp-bounce 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128c7e;
+            transform: scale(1.1);
+            box-shadow: 2px 2px 10px #888;
+            color: #FFF;
+            text-decoration: none;
+        }
+
+        .whatsapp-float i {
+            color: white;
+            font-size: 28px;
+            margin: 0;
+        }
+
+        /* Tooltip */
+        .whatsapp-tooltip {
+            visibility: hidden;
+            width: 140px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 1;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .whatsapp-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        .whatsapp-float:hover .whatsapp-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Bounce Animation */
+        @keyframes whatsapp-bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                width: 55px;
+                height: 55px;
+                bottom: 100px;
+                right: 28px;
+                font-size: 26px;
+            }
+            
+            .whatsapp-float i {
+                font-size: 24px;
+            }
+            
+            .whatsapp-tooltip {
+                width: 120px;
+                font-size: 11px;
+                padding: 6px 10px;
+                bottom: 70px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 100px;
+                right: 28px;
+            }
+            
+            .whatsapp-float i {
+                font-size: 22px;
+            }
+        }
+
+        /* Ensure it doesn't overlap with other floating elements */
+        .back-to-top + .whatsapp-float {
+            right: 40px;
+            bottom: 120px;
+        }
+
+        /* If you have back-to-top button, adjust positioning */
+        @media (max-width: 768px) {
+            .back-to-top + .whatsapp-float {
+                right: 20px;
+                bottom: 100px;
+            }
+        }
+    </style>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Bootstrap & jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Back to top button
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 300) {
+                    $('.back-to-top').addClass('show');
+                } else {
+                    $('.back-to-top').removeClass('show');
+                }
+            });
+            
+            $('.back-to-top').click(function(e) {
+                e.preventDefault();
+                $('html, body').animate({scrollTop:0}, 800);
+            });
+            
+            // Smooth scrolling for anchor links
+            $('a.footer-link').on('click', function(event) {
+                if (this.hash !== "") {
+                    event.preventDefault();
+                    var hash = this.hash;
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function(){
+                        window.location.hash = hash;
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+<style>
+    /* Simple 404 Page Styles */
+.display-1 {
+    font-size: 8rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+@media (max-width: 768px) {
+    .display-1 {
+        font-size: 5rem;
+    }
+    
+    .h3 {
+        font-size: 1.5rem;
+    }
+    
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+/* Animation for 404 number */
+.display-1 {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
